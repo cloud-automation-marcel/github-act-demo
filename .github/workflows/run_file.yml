@@ -2,7 +2,7 @@ name: refresh map
 
 on:
   schedule:
-    - cron: "*/5 * * *"
+    - cron: "*/5 * * * *"
 
 jobs:
   getdataandrefreshmap:
