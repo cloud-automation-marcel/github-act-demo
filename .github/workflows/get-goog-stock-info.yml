@@ -1,0 +1,29 @@
+name: Get GOOG Stock Info
+
+on:
+  schedule:
+    - cron: "*/15 * * * *"
+
+jobs:
+  get-goog-stock-info:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo content
+        uses: actions/checkout@v2
+
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Get GOOG stock info
+        run: |
+          import requests
+          url = "https://query1.finance.yahoo.com/v1/finance/quoteSummary/GOOG?formatted=true"
+          response = requests.get(url)
+          data = response.json()
+          with open("goog.txt", "w") as f:
+            f.write(json.dumps(data, indent=4))
