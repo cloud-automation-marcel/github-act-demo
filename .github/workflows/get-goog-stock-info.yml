@@ -3,7 +3,7 @@ name: Get GOOG Stock Info
 on:
   schedule:
     - cron: "*/15 * * * *"
-
+    
 jobs:
   get-goog-stock-info:
     runs-on: ubuntu-latest
