@@ -1,29 +1,25 @@
-name: Get GOOG Stock Info
+name: Scrape latest data
 
 on:
+  push:
+  workflow_dispatch:
   schedule:
-    - cron: "*/5 * * * *"
-    
+    - cron:  '*/5 * * * *' # every twenty minutes
+
 jobs:
-  get-goog-stock-info:
+  scheduled:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repo content
-        uses: actions/checkout@v2
-
-      - name: Setup Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: 3.8
-
-      - name: Install dependencies
-        run: pip install requests
-
-      - name: Get GOOG stock info
-        run: |
-          import requests
-          url = "https://query1.finance.yahoo.com/v1/finance/quoteSummary/GOOG?formatted=true"
-          response = requests.get(url)
-          data = response.json()
-          with open("goog.txt", "w") as f:
-            f.write(json.dumps(data, indent=4))
+    - name: Check out this repo
+      uses: actions/checkout@v2
+    - name: Fetch latest data
+      run: |-
+        curl -s "https://www.nu.nl/block/lean_json/articlelist?limit=100&offset=0&source=latest&filter=site" | jq '.data.context.articles' > headlines.json
+    - name: Commit and push if it changed
+      run: |-
+        git config user.name "Automated"
+        git config user.email "actions@users.noreply.github.com"
+        git add -A
+        timestamp=$(date -u)
+        git commit -m "Latest data: ${timestamp}" || exit 0
+        git push
