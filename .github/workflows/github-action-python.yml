@@ -2,7 +2,7 @@ name: GIthub Action Python
 
 on:
   schedule:
-    - cron: '*/5 * * * *'
+    - cron: '*/5 * * * *'  # Run every 5 minutes
 
 jobs:
   getdataandrefreshmap:
