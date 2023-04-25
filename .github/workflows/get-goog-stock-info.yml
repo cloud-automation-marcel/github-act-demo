@@ -2,7 +2,7 @@ name: Get GOOG Stock Info
 
 on:
   schedule:
-    - cron: "*/15 * * * *"
+    - cron: "*/5 * * * *"
     
 jobs:
   get-goog-stock-info:
